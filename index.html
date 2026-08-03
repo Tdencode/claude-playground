@@ -1183,42 +1183,58 @@
                 .bindPopup(`<strong>${stop.name}</strong><br>${stop.description}`);
         });
 
-        // Add markers for additional recommended places
-        const locations = [
+        // Our 5 top picks - highly recommended
+        const topPicks = [
             {
                 name: "Miyajima Island, Hiroshima",
                 coords: [34.2958, 132.3197],
-                icon: redIcon,
-                description: "Highly recommend! Temples, old township, hiking, amazing bay views."
+                description: "One of our top picks! Temples, old township, hiking and amazing bay views."
             },
             {
-                name: "Kyoto",
-                coords: [35.0116, 135.7681],
-                icon: blueIcon,
-                description: "Beautiful temples but very busy. Consider a day trip from Osaka."
-            },
-            {
-                name: "Magome Pass (from Nagoya)",
-                coords: [35.5326, 137.5989],
-                icon: blueIcon,
-                description: "Historic trade route through mountains. Beautiful walk between old villages."
-            },
-            {
-                name: "Mt. Oyama (Day trip from Tokyo)",
+                name: "Mt. Oyama (day trip from Tokyo)",
                 coords: [35.4453, 139.2481],
-                icon: blueIcon,
-                description: "Day trip from Tokyo. Cable car partway up, steep hike to summit with restaurant at top."
+                description: "One of our top picks. Cable car partway up, steep hike to the summit — watch for the staff hikers hauling food up."
+            },
+            {
+                name: "Ryokan at Mount Mitake",
+                coords: [35.7893, 139.1400],
+                description: "One of our top picks — the traditional ryokan with a private onsen that makes this stop worth it."
+            },
+            {
+                name: "Round1 Spo-Cha, Osaka",
+                coords: [34.6650, 135.5035],
+                description: "One of our top picks. Arcade plus Spo-Cha: unlimited games and sports. Get the 24-hour pass."
+            },
+            {
+                name: "Magome Pass (near Nagoya)",
+                coords: [35.5326, 137.5989],
+                description: "One of our top picks. A stretch of the old Nakasendo between the post towns of Magome and Tsumago."
             }
         ];
 
-        locations.forEach(location => {
-            L.marker(location.coords, { icon: location.icon })
+        topPicks.forEach(place => {
+            L.marker(place.coords, { icon: redIcon })
+                .addTo(map)
+                .bindPopup(`<strong>${place.name}</strong><br>${place.description}`);
+        });
+
+        // Other places worth a look
+        const otherLocations = [
+            {
+                name: "Kyoto",
+                coords: [35.0116, 135.7681],
+                description: "Beautiful temples but very busy. Worth a day trip from Osaka."
+            }
+        ];
+
+        otherLocations.forEach(location => {
+            L.marker(location.coords, { icon: blueIcon })
                 .addTo(map)
                 .bindPopup(`<strong>${location.name}</strong><br>${location.description}`);
         });
 
         // Fit map to show all markers
-        const allCoords = [...itineraryStops.map(s => s.coords), ...locations.map(l => l.coords)];
+        const allCoords = [...itineraryStops.map(s => s.coords), ...topPicks.map(p => p.coords), ...otherLocations.map(l => l.coords)];
         const group = L.featureGroup(allCoords.map(coord => L.marker(coord))).addTo(map);
         map.fitBounds(group.getBounds().pad(0.1));
     </script>
