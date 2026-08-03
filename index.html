@@ -487,6 +487,92 @@
             content: "🍜 ";
         }
 
+        /* Top Picks */
+        .top-picks {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 22px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .pick-card {
+            background: var(--surface-alt);
+            border: 1px solid var(--line);
+            border-top: 4px solid var(--clay);
+            border-radius: var(--radius-md);
+            padding: 26px;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .pick-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .pick-card.maybe-card {
+            border-top-color: var(--gold);
+        }
+
+        .pick-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            gap: 10px;
+        }
+
+        .pick-emoji {
+            font-size: 1.9em;
+            line-height: 1;
+        }
+
+        .pick-tag {
+            display: inline-block;
+            font-size: 0.72em;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            padding: 5px 11px;
+            border-radius: 999px;
+            white-space: nowrap;
+        }
+
+        .pick-tag.love {
+            background: var(--clay-soft);
+            color: var(--clay-dark);
+        }
+
+        .pick-tag.maybe {
+            background: var(--gold-soft);
+            color: var(--gold-ink);
+        }
+
+        .pick-card h3 {
+            color: var(--clay);
+            font-size: 1.25em;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .pick-loc {
+            display: block;
+            color: var(--ink-soft);
+            font-size: 0.88em;
+            font-weight: 500;
+            margin-bottom: 14px;
+        }
+
+        .pick-card p {
+            color: var(--ink-soft);
+            margin-bottom: 0;
+        }
+
+        .pick-card a {
+            color: var(--clay);
+            font-weight: 600;
+        }
+
         @media (max-width: 768px) {
             body {
                 padding: 10px;
@@ -636,6 +722,10 @@
             .activity-list li {
                 padding: 11px 13px;
             }
+
+            .top-picks {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -661,6 +751,65 @@
             <div class="legend-item">
                 <div class="legend-marker recommended">📌</div>
                 <span>Worth a look</span>
+            </div>
+        </div>
+
+        <div class="itinerary-section" style="background: var(--surface);">
+            <div class="itinerary-header">
+                <h2 style="color: #c26a4e;">My Top Places</h2>
+                <p>If you only do a handful of things, make it these</p>
+            </div>
+
+            <div class="top-picks">
+                <div class="pick-card">
+                    <div class="pick-top">
+                        <span class="pick-emoji">🏯</span>
+                        <span class="pick-tag love">Highly recommend</span>
+                    </div>
+                    <h3>Miyajima Island</h3>
+                    <span class="pick-loc">Hiroshima</span>
+                    <p>Can't recommend this enough. Heaps of temples, an old township to wander around, and plenty of food about. Hike or take the cable car to the top and look out over the whole bay — the views are unreal.</p>
+                </div>
+
+                <div class="pick-card">
+                    <div class="pick-top">
+                        <span class="pick-emoji">⛰️</span>
+                        <span class="pick-tag love">Highly recommend</span>
+                    </div>
+                    <h3>Mt. Oyama Hike</h3>
+                    <span class="pick-loc">Day trip from Tokyo</span>
+                    <p>Loved this one, really enjoyable area. Cable car partway up, then a steep climb to the summit with a little restaurant at the top as a reward. Keep an eye out for the staff hikers hauling all the food up — they've got an insane amount strapped to their backs, wild to watch.</p>
+                </div>
+
+                <div class="pick-card">
+                    <div class="pick-top">
+                        <span class="pick-emoji">♨️</span>
+                        <span class="pick-tag love">Highly recommend</span>
+                    </div>
+                    <h3>The Ryokan at Mount Mitake</h3>
+                    <span class="pick-loc">Mountain-top stay</span>
+                    <p>It's a great area, but honestly it's the ryokan itself that makes it worth it — traditional dinner and breakfast, and our own private onsen. If you're on a tight schedule I wouldn't rush to the area unless you can stay at that exact place, but if you can get in, do it. <a href="https://www.booking.com/hotel/jp/shukubo-komadorisanso.en-gb.html" target="_blank">[Book]</a></p>
+                </div>
+
+                <div class="pick-card">
+                    <div class="pick-top">
+                        <span class="pick-emoji">🎳</span>
+                        <span class="pick-tag love">Highly recommend</span>
+                    </div>
+                    <h3>Round1 (Spo-Cha)</h3>
+                    <span class="pick-loc">Osaka</span>
+                    <p>Loved it. It's an arcade — get the 24-hour Spo-Cha pass. Unlimited play on the arcade games plus loads of sports: bowling, darts, bubble soccer, basketball, giant tennis, archery, baseball batting cages, you name it.</p>
+                </div>
+
+                <div class="pick-card maybe-card">
+                    <div class="pick-top">
+                        <span class="pick-emoji">🥾</span>
+                        <span class="pick-tag maybe">If you've got time</span>
+                    </div>
+                    <h3>Magome Pass Walk</h3>
+                    <span class="pick-loc">Near Nagoya</span>
+                    <p>Not necessarily a must-do, but we really enjoyed it. It's not a hard hike, just a path really, but a very nice area — and the towns at either end are quaint and interesting, proper old-style Japan with heaps of trinkets, crafts and food.</p>
+                </div>
             </div>
         </div>
 
