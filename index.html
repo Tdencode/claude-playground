@@ -6,7 +6,38 @@
     <title>Japan Travel Guide - Personal Recommendations</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg: #f4efe8;
+            --surface: #ffffff;
+            --surface-alt: #f7f2eb;
+            --surface-sunken: #f0e9df;
+            --ink: #2f2a24;
+            --ink-soft: #6a6156;
+            --line: #e8ded1;
+            --clay: #c26a4e;
+            --clay-dark: #a8563d;
+            --clay-soft: #f5e7e0;
+            --sage: #7c9576;
+            --sage-dark: #5e7a5b;
+            --sage-soft: #e9efe6;
+            --dusty: #7f9bb0;
+            --gold: #c9a24c;
+            --gold-ink: #8a6d1e;
+            --gold-soft: #f7efdb;
+            --rust: #b5654d;
+            --rust-ink: #8a4231;
+            --rust-soft: #f4e5df;
+            --radius: 22px;
+            --radius-md: 16px;
+            --radius-sm: 10px;
+            --shadow: 0 18px 50px rgba(58, 42, 30, 0.12);
+            --shadow-sm: 0 6px 20px rgba(58, 42, 30, 0.07);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -19,13 +50,21 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.7;
+            color: var(--ink-soft);
+            background: linear-gradient(165deg, #f6f1ea 0%, #eee4d6 100%);
+            background-attachment: fixed;
             min-height: 100vh;
-            padding: 20px;
+            padding: 28px;
             overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Poppins', 'Inter', sans-serif;
+            color: var(--ink);
+            letter-spacing: -0.01em;
+            line-height: 1.25;
         }
 
         img, iframe {
@@ -38,118 +77,132 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1140px;
             margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
             overflow: hidden;
         }
 
         header {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            background: linear-gradient(135deg, #d08c6f 0%, #c26a4e 60%, #b25c40 100%);
             color: white;
-            padding: 40px;
+            padding: 60px 40px;
             text-align: center;
         }
 
         header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
+            color: white;
+            font-size: 2.6em;
+            font-weight: 700;
+            margin-bottom: 12px;
         }
 
         header p {
-            font-size: 1.2em;
-            opacity: 0.9;
+            font-size: 1.15em;
+            font-weight: 400;
+            opacity: 0.92;
         }
 
         #map {
             width: 100%;
-            height: 500px;
-            border-bottom: 4px solid #e74c3c;
+            height: 460px;
+            border-bottom: 3px solid var(--clay);
         }
 
         .content {
-            padding: 40px;
+            padding: 48px;
         }
 
         .location {
-            margin-bottom: 40px;
-            padding: 30px;
-            background: #f8f9fa;
-            border-radius: 15px;
-            border-left: 5px solid #e74c3c;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 34px;
+            padding: 32px;
+            background: var(--surface-alt);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--line);
+            border-left: 4px solid var(--clay);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
 
         .location:hover {
-            transform: translateX(5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-sm);
         }
 
         .location h2 {
-            color: #e74c3c;
-            margin-bottom: 15px;
-            font-size: 1.8em;
+            color: var(--clay);
+            margin-bottom: 16px;
+            font-size: 1.55em;
+            font-weight: 600;
             display: flex;
             align-items: center;
         }
 
         .location h2::before {
             content: "📍";
-            margin-right: 10px;
+            margin-right: 12px;
         }
 
         .location h3 {
-            color: #555;
-            margin: 20px 0 10px 0;
-            font-size: 1.3em;
+            color: var(--ink);
+            margin: 22px 0 10px 0;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        .location h4 {
+            font-weight: 600;
         }
 
         .location p {
             margin-bottom: 15px;
-            color: #666;
-            line-height: 1.8;
+            color: var(--ink-soft);
         }
 
         .highlight {
-            background: #fff3cd;
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 4px solid #ffc107;
-            margin: 15px 0;
+            background: var(--gold-soft);
+            padding: 18px 20px;
+            border-radius: var(--radius-sm);
+            border-left: 4px solid var(--gold);
+            margin: 18px 0;
         }
 
         .highlight strong {
-            color: #856404;
+            color: var(--gold-ink);
         }
 
         .link-button {
             display: inline-block;
-            padding: 10px 20px;
-            background: #e74c3c;
+            padding: 11px 24px;
+            background: var(--clay);
             color: white;
             text-decoration: none;
-            border-radius: 5px;
-            margin-top: 10px;
-            transition: background 0.3s ease;
+            border-radius: 999px;
+            font-weight: 600;
+            font-size: 0.95em;
+            margin-top: 12px;
+            transition: background 0.25s ease, transform 0.15s ease;
         }
 
         .link-button:hover {
-            background: #c0392b;
+            background: var(--clay-dark);
+            transform: translateY(-1px);
         }
 
         .tips {
-            background: #d4edda;
-            padding: 20px;
-            border-radius: 10px;
-            border-left: 4px solid #28a745;
+            background: var(--sage-soft);
+            padding: 26px 28px;
+            border-radius: var(--radius-md);
+            border-left: 4px solid var(--sage);
             margin-top: 30px;
         }
 
         .tips h2 {
-            color: #155724;
-            margin-bottom: 15px;
+            color: var(--sage-dark);
+            margin-bottom: 14px;
+            font-size: 1.4em;
+            font-weight: 600;
         }
 
         .tips h2::before {
@@ -158,70 +211,75 @@
         }
 
         .legend {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 20px 40px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background: var(--surface);
+            padding: 22px 24px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--line);
+            margin: 26px 48px;
+            box-shadow: var(--shadow-sm);
         }
 
         .legend h3 {
-            margin-bottom: 10px;
-            color: #333;
+            margin-bottom: 14px;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: var(--ink);
         }
 
         .legend-item {
             display: flex;
             align-items: center;
-            margin: 8px 0;
+            margin: 10px 0;
         }
 
         .legend-marker {
-            width: 30px;
-            height: 30px;
-            margin-right: 10px;
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
+            margin-right: 12px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
+            font-size: 15px;
         }
 
         .highly-recommended {
-            background: #e74c3c;
+            background: var(--sage);
             color: white;
         }
 
         .recommended {
-            background: #3498db;
+            background: var(--dusty);
             color: white;
         }
 
         /* Itinerary Timeline Styles */
         .itinerary-section {
-            background: #f8f9fa;
-            padding: 40px;
+            background: var(--surface-alt);
+            padding: 56px 48px;
         }
 
         .itinerary-header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 48px;
         }
 
         .itinerary-header h2 {
-            color: #e74c3c;
-            font-size: 2.2em;
+            color: var(--clay);
+            font-size: 2em;
+            font-weight: 700;
             margin-bottom: 10px;
         }
 
         .itinerary-header h2::before {
             content: "🗺️";
-            margin-right: 15px;
+            margin-right: 14px;
         }
 
         .itinerary-header p {
-            color: #666;
-            font-size: 1.1em;
+            color: var(--ink-soft);
+            font-size: 1.08em;
         }
 
         .timeline {
@@ -236,8 +294,9 @@
             left: 50px;
             top: 0;
             bottom: 0;
-            width: 4px;
-            background: linear-gradient(180deg, #e74c3c, #c0392b);
+            width: 3px;
+            background: linear-gradient(180deg, var(--clay), var(--clay-dark));
+            border-radius: 3px;
         }
 
         .timeline-item {
@@ -253,13 +312,15 @@
             width: 32px;
             height: 32px;
             border-radius: 50%;
-            background: #e74c3c;
-            border: 4px solid white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            background: var(--clay);
+            color: white;
+            border: 4px solid var(--surface);
+            box-shadow: 0 3px 10px rgba(58, 42, 30, 0.18);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 14px;
+            font-weight: 600;
             z-index: 2;
         }
 
@@ -268,7 +329,7 @@
             margin: 30px 0;
             padding-left: 100px;
             font-style: italic;
-            color: #666;
+            color: var(--ink-soft);
         }
 
         .timeline-travel::before {
@@ -276,22 +337,23 @@
             position: absolute;
             left: 38px;
             font-size: 20px;
-            background: white;
+            background: var(--surface);
             padding: 5px;
             border-radius: 50%;
         }
 
         .stop-card {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: var(--surface);
+            border-radius: var(--radius-md);
+            padding: 30px;
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
 
         .stop-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transform: translateY(-4px);
+            box-shadow: 0 14px 34px rgba(58, 42, 30, 0.12);
         }
 
         .stop-header {
@@ -300,80 +362,83 @@
             align-items: flex-start;
             margin-bottom: 20px;
             flex-wrap: wrap;
+            gap: 12px;
         }
 
         .stop-title {
-            font-size: 1.8em;
-            color: #e74c3c;
+            font-size: 1.6em;
+            font-weight: 700;
+            color: var(--clay);
             margin-bottom: 5px;
         }
 
         .stop-dates {
-            background: #e74c3c;
+            background: var(--clay);
             color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-weight: 600;
+            font-size: 0.9em;
             white-space: nowrap;
         }
 
         .hotel-info {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 15px 0;
-            border-left: 4px solid #ddd;
+            background: var(--surface-alt);
+            padding: 18px;
+            border-radius: var(--radius-sm);
+            margin: 16px 0;
+            border-left: 4px solid var(--line);
         }
 
         .hotel-info h4 {
-            color: #333;
+            color: var(--ink);
             margin-bottom: 8px;
-            font-size: 1.1em;
+            font-size: 1.05em;
         }
 
         .hotel-recommended {
-            border-left-color: #28a745;
-            background: #d4edda;
+            border-left-color: var(--sage);
+            background: var(--sage-soft);
         }
 
         .hotel-recommended .recommendation {
-            color: #155724;
-            font-weight: bold;
+            color: var(--sage-dark);
+            font-weight: 600;
         }
 
         .hotel-not-recommended {
-            border-left-color: #dc3545;
-            background: #f8d7da;
+            border-left-color: var(--rust);
+            background: var(--rust-soft);
         }
 
         .hotel-not-recommended .recommendation {
-            color: #721c24;
-            font-weight: bold;
+            color: var(--rust-ink);
+            font-weight: 600;
         }
 
         .hotel-neutral {
-            border-left-color: #ffc107;
-            background: #fff3cd;
+            border-left-color: var(--gold);
+            background: var(--gold-soft);
         }
 
         .hotel-neutral .recommendation {
-            color: #856404;
-            font-weight: bold;
+            color: var(--gold-ink);
+            font-weight: 600;
         }
 
         .hotel-name {
             font-weight: 600;
-            color: #333;
+            color: var(--ink);
         }
 
         .activities {
-            margin-top: 20px;
+            margin-top: 22px;
         }
 
         .activities h4 {
-            color: #555;
+            color: var(--ink);
             margin-bottom: 15px;
-            font-size: 1.2em;
+            font-size: 1.15em;
         }
 
         .activity-list {
@@ -382,28 +447,28 @@
         }
 
         .activity-list li {
-            padding: 10px 15px;
-            margin: 8px 0;
-            background: #f8f9fa;
-            border-radius: 8px;
-            border-left: 3px solid #3498db;
-            transition: all 0.2s ease;
+            padding: 12px 16px;
+            margin: 10px 0;
+            background: var(--surface-alt);
+            border-radius: var(--radius-sm);
+            border-left: 3px solid var(--dusty);
+            transition: background 0.2s ease, transform 0.2s ease;
         }
 
         .activity-list li:hover {
-            background: #e9ecef;
-            transform: translateX(5px);
+            background: var(--surface-sunken);
+            transform: translateX(4px);
         }
 
         .activity-list li::before {
             content: "✓";
-            color: #3498db;
+            color: var(--dusty);
             font-weight: bold;
             margin-right: 10px;
         }
 
         .must-see {
-            border-left-color: #e74c3c;
+            border-left-color: var(--clay);
         }
 
         .must-see::before {
@@ -411,11 +476,11 @@
         }
 
         .food-note {
-            background: #fff3cd;
-            padding: 12px 15px;
-            border-radius: 8px;
-            margin-top: 15px;
-            border-left: 3px solid #ffc107;
+            background: var(--gold-soft);
+            padding: 14px 18px;
+            border-radius: var(--radius-sm);
+            margin-top: 16px;
+            border-left: 3px solid var(--gold);
         }
 
         .food-note::before {
@@ -428,11 +493,11 @@
             }
 
             .container {
-                border-radius: 14px;
+                border-radius: 16px;
             }
 
             header {
-                padding: 28px 20px;
+                padding: 34px 20px;
             }
 
             header h1 {
@@ -448,32 +513,32 @@
             }
 
             .content {
-                padding: 20px;
+                padding: 22px;
             }
 
             .location {
-                padding: 20px;
-                margin-bottom: 25px;
+                padding: 22px;
+                margin-bottom: 26px;
             }
 
             .location h2 {
-                font-size: 1.4em;
+                font-size: 1.35em;
             }
 
             .legend {
-                margin: 15px 20px;
+                margin: 16px 20px;
             }
 
             .itinerary-section {
-                padding: 25px 20px;
+                padding: 32px 20px;
             }
 
             .itinerary-header {
-                margin-bottom: 30px;
+                margin-bottom: 32px;
             }
 
             .itinerary-header h2 {
-                font-size: 1.6em;
+                font-size: 1.55em;
             }
 
             .itinerary-header h2::before {
@@ -502,7 +567,7 @@
             }
 
             .stop-card {
-                padding: 20px;
+                padding: 22px;
             }
 
             .stop-header {
@@ -510,11 +575,11 @@
             }
 
             .stop-title {
-                font-size: 1.5em;
+                font-size: 1.4em;
             }
 
             .stop-dates {
-                margin-top: 10px;
+                margin-top: 6px;
                 white-space: normal;
                 display: inline-block;
             }
@@ -532,7 +597,7 @@
             }
 
             header {
-                padding: 22px 16px;
+                padding: 26px 16px;
             }
 
             header h1 {
@@ -545,31 +610,31 @@
 
             .content,
             .itinerary-section {
-                padding: 18px 14px;
+                padding: 22px 14px;
             }
 
             .location {
-                padding: 16px;
+                padding: 18px;
             }
 
             .stop-card {
-                padding: 16px;
+                padding: 18px;
             }
 
             .legend {
-                margin: 12px 14px;
+                margin: 14px;
             }
 
             .itinerary-header h2 {
-                font-size: 1.4em;
+                font-size: 1.35em;
             }
 
             .stop-title {
-                font-size: 1.3em;
+                font-size: 1.25em;
             }
 
             .activity-list li {
-                padding: 10px 12px;
+                padding: 11px 13px;
             }
         }
     </style>
@@ -578,7 +643,7 @@
     <div class="container">
         <header>
             <h1>🇯🇵 Japan Travel Guide</h1>
-            <p>Personal Recommendations & Tips</p>
+            <p>Our honest take — what we loved, what to skip, and a few tips</p>
         </header>
 
         <div id="map"></div>
@@ -586,23 +651,23 @@
         <div class="legend">
             <h3>Map Legend</h3>
             <div class="legend-item">
-                <div class="legend-marker" style="background: #9b59b6; color: white; font-weight: bold;">1-5</div>
-                <span>Itinerary Route (numbered stops)</span>
+                <div class="legend-marker" style="background: #c26a4e; color: white; font-weight: bold;">1-5</div>
+                <span>Itinerary route (numbered stops)</span>
             </div>
             <div class="legend-item">
                 <div class="legend-marker highly-recommended">⭐</div>
-                <span>Highly Recommended</span>
+                <span>Highly recommend</span>
             </div>
             <div class="legend-item">
                 <div class="legend-marker recommended">📌</div>
-                <span>Recommended</span>
+                <span>Worth a look</span>
             </div>
         </div>
 
         <div class="itinerary-section">
             <div class="itinerary-header">
-                <h2>Sample Itinerary</h2>
-                <p>Our 18-day journey through Japan - October 2023</p>
+                <h2>Our Itinerary</h2>
+                <p>18 days around Japan, October 2023</p>
             </div>
 
             <div class="timeline">
@@ -613,37 +678,37 @@
                         <div class="stop-header">
                             <div>
                                 <h3 class="stop-title">Tokyo</h3>
-                                <p style="color: #666;">Arrival: Narita Airport</p>
+                                <p style="color: var(--ink-soft);">Arrival: Narita Airport</p>
                             </div>
                             <div class="stop-dates">Oct 1 - 6 (6 nights)</div>
                         </div>
 
                         <div class="hotel-info hotel-not-recommended">
-                            <h4>🏨 Accommodation</h4>
+                            <h4>🏨 Where we stayed</h4>
                             <p class="hotel-name">APA Hotel Akasaka Mitsuke</p>
-                            <p class="recommendation">⚠️ Not Recommended - Very small rooms, just a bed against the wall with minimal space</p>
-                            <p style="margin-top: 8px; color: #155724; font-weight: 500;">✓ Location is excellent though - Akasaka-Mitsuke area is great for food and transport</p>
+                            <p class="recommendation">Wouldn't really recommend it — the room was tiny, basically just a bed shoved against the wall with nowhere to sit.</p>
+                            <p style="margin-top: 8px; color: var(--sage-dark); font-weight: 500;">✓ Location's great though — Akasaka-Mitsuke is a solid spot for food and getting around.</p>
                         </div>
 
                         <div class="activities">
-                            <h4>Things to Do</h4>
+                            <h4>Things to do</h4>
                             <ul class="activity-list">
-                                <li class="must-see">Explore Shibuya - Popular restaurant and shopping area, very trendy! Home to the famous Shibuya Crossing, a very busy street crossing. While here, visit the MEGA Don Quijote store (the biggest one in Shibuya) - it's like a Japanese Costco and an overwhelming but amazing experience!</li>
-                                <li class="must-see">Akihabara - Pop culture and technology area, amazing for anime, manga, and electronics</li>
-                                <li class="must-see">Shinjuku - Entertainment and shopping area with great nightlife and restaurants</li>
-                                <li class="must-see">Experience Tsukiji Outer Market for fresh sushi</li>
-                                <li class="must-see">Walk through Meiji Shrine and Yoyogi Park</li>
+                                <li class="must-see">Shibuya — trendy area with heaps of restaurants and shopping, and the famous Shibuya Crossing. While you're there, have a look at the MEGA Don Quijote (the biggest one) — it's kind of like a Japanese Costco, totally overwhelming but worth a look.</li>
+                                <li class="must-see">Akihabara — the pop culture and tech area. Heaps of anime, manga and electronics if that's your thing.</li>
+                                <li class="must-see">Shinjuku — good for nightlife, shopping and food, always something going on.</li>
+                                <li class="must-see">Tsukiji Outer Market for fresh sushi.</li>
+                                <li class="must-see">Wander through Meiji Shrine and Yoyogi Park.</li>
                             </ul>
                         </div>
 
                         <div class="food-note">
-                            <strong>Area Highlights:</strong> The food around Akasaka-Mitsuke is fantastic! The area isn't too busy and it's extremely well connected with 4 metro lines making it easy to explore Tokyo during the day and find great restaurants near your hotel at night.
+                            <strong>Why we liked the area:</strong> the food around Akasaka-Mitsuke is really good. It's not too busy and it's super well connected — 4 metro lines — so you can head out and explore Tokyo during the day and still find great places to eat near the hotel at night.
                         </div>
                     </div>
                 </div>
 
                 <div class="timeline-travel">
-                    <strong>Travel:</strong> Train to Mount Mitake from Tokyo
+                    <strong>Travel:</strong> train to Mount Mitake from Tokyo
                 </div>
 
                 <!-- Mount Mitake -->
@@ -653,36 +718,36 @@
                         <div class="stop-header">
                             <div>
                                 <h3 class="stop-title">Mount Mitake</h3>
-                                <p style="color: #666;">Traditional Mountain Ryokan Experience</p>
+                                <p style="color: var(--ink-soft);">Traditional mountain ryokan stay</p>
                             </div>
                             <div class="stop-dates">Oct 7 (1 night)</div>
                         </div>
 
                         <div class="hotel-info hotel-recommended">
-                            <h4>🏨 Accommodation</h4>
-                            <p class="hotel-name">Traditional Ryokan on mountain top</p>
-                            <p class="recommendation">⭐ Highly Recommended - Incredible traditional experience! They served traditional dinner and breakfast, and we had a private onsen</p>
-                            <p style="margin-top: 8px; color: #721c24; font-weight: 700; font-size: 1.05em;">⚠️ IMPORTANT WARNING: The town is EXTREMELY steep and built into the mountain - it's a challenging 20 minute uphill walk to accommodation with significant elevation gain. This could be a BLOCKER if you're traveling with large or heavy bags! The steepness is intense and there are lots of stairs. Consider this carefully when planning your luggage strategy.</p>
+                            <h4>🏨 Where we stayed</h4>
+                            <p class="hotel-name">Traditional ryokan on the mountain top</p>
+                            <p class="recommendation">⭐ Highly recommend this one — such a cool traditional experience. They did a traditional dinner and breakfast, and we had our own private onsen.</p>
+                            <p style="margin-top: 8px; color: var(--rust-ink); font-weight: 600; font-size: 1.02em;">⚠️ Heads up though — the town's built into the mountain and it's seriously steep. It's a solid 20 minute walk uphill to get up there with a fair bit of climbing and lots of stairs. If you've got big or heavy bags this could genuinely be a dealbreaker, so have a think about your luggage before you commit.</p>
                         </div>
 
                         <div class="activities">
                             <h4>Highlights</h4>
                             <ul class="activity-list">
-                                <li class="must-see">Stay at a traditional ryokan with private onsen - amazing experience!</li>
-                                <li class="must-see">Traditional multi-course dinner and breakfast included</li>
-                                <li>Explore beautiful old temples around the mountain town</li>
-                                <li>Peaceful mountain atmosphere and stunning views</li>
+                                <li class="must-see">Staying at a traditional ryokan with a private onsen — one of the highlights of the whole trip.</li>
+                                <li class="must-see">Traditional multi-course dinner and breakfast are included.</li>
+                                <li>Have a wander around the old temples in the mountain town.</li>
+                                <li>Really peaceful up there, and the views are great.</li>
                             </ul>
                         </div>
 
-                        <div class="food-note" style="background: #f8d7da; border-left-color: #dc3545;">
-                            <strong>⚠️ CRITICAL LOGISTICS WARNING:</strong> The walk to the accommodation is extremely challenging - 20 minutes of steep uphill climbing with lots of stairs built into the mountainside. If you have large suitcases or heavy bags, this could be a deal-breaker. Strongly recommend traveling with minimal luggage, using luggage forwarding services, or reconsidering this stop if you can't pack light. The steepness cannot be overstated!
+                        <div class="food-note" style="background: var(--rust-soft); border-left-color: var(--rust);">
+                            <strong>⚠️ Luggage warning:</strong> the walk up to the accommodation is no joke — 20 minutes of steep uphill with heaps of stairs cut into the mountain. If you're hauling big suitcases it could be a dealbreaker. I'd honestly pack light, use a luggage forwarding service, or maybe skip this one if you can't travel light. Can't stress enough how steep it is.
                         </div>
                     </div>
                 </div>
 
                 <div class="timeline-travel">
-                    <strong>Travel:</strong> Train to Nagoya
+                    <strong>Travel:</strong> train to Nagoya
                 </div>
 
                 <!-- Nagoya -->
@@ -697,21 +762,21 @@
                         </div>
 
                         <div class="hotel-info hotel-recommended">
-                            <h4>🏨 Accommodation</h4>
+                            <h4>🏨 Where we stayed</h4>
                             <p class="hotel-name">Comfort Inn Nagoya Sakae</p>
-                            <p class="recommendation">✓ Recommended - Great hotel with good amenities</p>
+                            <p class="recommendation">✓ Recommend it — good hotel, everything you need.</p>
                         </div>
 
                         <div class="activities">
-                            <h4>Things to Do</h4>
+                            <h4>Things to do</h4>
                             <ul class="activity-list">
-                                <li class="must-see">Mt. Oyama Day Trip - Take train + bus from Tokyo. Cable car partway up with restaurants and nice views. Very steep hike to summit (lots of stairs!) with a small restaurant at the top as your reward</li>
-                                <li class="must-see">Hike the Magome Pass - Historic trade route through the mountains between two beautiful old villages. Very scenic walk with interesting townships at both ends offering good food and traditional crafts</li>
+                                <li class="must-see">Mt. Oyama day trip — train and bus to get there. There's a cable car partway up with a few restaurants and nice views. The hike to the summit is steep with a heap of stairs, but there's a little restaurant at the top as a reward.</li>
+                                <li class="must-see">Walk the Magome Pass — an old trade route through the mountains between two really old-style villages. Lovely walk, and both ends have cool little towns with good food and traditional crafts.</li>
                             </ul>
                         </div>
 
                         <div class="food-note">
-                            <strong>Food:</strong> Lots of great restaurants around the hotel area.
+                            <strong>Food:</strong> heaps of good restaurants around the hotel.
                         </div>
                     </div>
                 </div>
@@ -732,24 +797,24 @@
                         </div>
 
                         <div class="hotel-info hotel-recommended">
-                            <h4>🏨 Accommodation</h4>
+                            <h4>🏨 Where we stayed</h4>
                             <p class="hotel-name">NAGI Hiroshima Hotel and Lounge</p>
-                            <p class="recommendation">⭐ Highly Recommended - One of the best hotels we stayed in! Beautiful property and wonderful experience</p>
+                            <p class="recommendation">⭐ Highly recommend — one of the best places we stayed. Beautiful spot, we loved it.</p>
                         </div>
 
                         <div class="activities">
-                            <h4>Things to Do</h4>
+                            <h4>Things to do</h4>
                             <ul class="activity-list">
-                                <li class="must-see">Shukkeien Gardens - Absolutely incredible! A must-see. Beautiful Japanese garden with koi ponds and lakes. Buy fish food at the entrance to feed them - it's very fun watching them swarm!</li>
-                                <li class="must-see">Miyajima Island - Full day trip. Amazing temples, old township to explore, hike or take cable car to the top for stunning bay views</li>
-                                <li>Peace Memorial Park and Museums - Important historical site</li>
-                                <li>Hiroshima Castle - Nice to visit, we really enjoyed it</li>
-                                <li>Okonomiyaki Tower - Visit for lunch (especially on departure day). 4 floors of okonomiyaki restaurants! This is THE classic Hiroshima dish. Sit at the bar and watch them cook on the hotplate in front of you <a href="https://maps.app.goo.gl/SRQJSL9cfhKR4eWR6" target="_blank" style="color: #e74c3c; font-weight: bold;">[Map]</a></li>
+                                <li class="must-see">Shukkeien Gardens — this one's a must. Beautiful Japanese garden with koi ponds and lakes. Grab some fish food at the entrance and feed them, watching them all swarm is weirdly fun.</li>
+                                <li class="must-see">Miyajima Island — set aside a full day. Great temples, an old township to poke around, and you can hike or catch the cable car to the top for amazing views over the bay.</li>
+                                <li>Peace Memorial Park and Museums — worth going, important bit of history.</li>
+                                <li>Hiroshima Castle — nice to visit, we enjoyed it.</li>
+                                <li>Okonomiyaki Tower — good for lunch, especially on your way out. It's 4 floors of okonomiyaki joints, which is the classic Hiroshima dish. Sit at the bar and watch them cook it on the hotplate right in front of you <a href="https://maps.app.goo.gl/SRQJSL9cfhKR4eWR6" target="_blank" style="color: #c26a4e; font-weight: bold;">[Map]</a></li>
                             </ul>
                         </div>
 
                         <div class="food-note">
-                            <strong>Food Highlights:</strong> Hotel is near lots of great restaurants. Check out the <a href="https://maps.app.goo.gl/4JULM6F8Fwek78HR8" target="_blank" style="color: #856404; text-decoration: underline; font-weight: bold;">camping-themed restaurant</a> a block away on the second floor - fun atmosphere with camping chairs and utensils! Also a fantastic <a href="https://maps.app.goo.gl/BH1nCPeTWp4nMkFi7" target="_blank" style="color: #856404; text-decoration: underline; font-weight: bold;">Japanese BBQ place</a> nearby that uses all Hiroshima produce (newly opened when we visited).
+                            <strong>Food:</strong> the hotel's near heaps of good restaurants. There's a <a href="https://maps.app.goo.gl/4JULM6F8Fwek78HR8" target="_blank" style="color: #8a6d1e; text-decoration: underline; font-weight: bold;">camping-themed restaurant</a> a block away on the second floor — camping chairs, camping utensils, great vibe. There's also a really good <a href="https://maps.app.goo.gl/BH1nCPeTWp4nMkFi7" target="_blank" style="color: #8a6d1e; text-decoration: underline; font-weight: bold;">Japanese BBQ place</a> nearby that uses all Hiroshima produce (it had just opened when we were there).
                         </div>
                     </div>
                 </div>
@@ -770,123 +835,123 @@
                         </div>
 
                         <div class="hotel-info hotel-neutral">
-                            <h4>🏨 Accommodation</h4>
+                            <h4>🏨 Where we stayed</h4>
                             <p class="hotel-name">Ocean Niponichi (near Dontonbori)</p>
-                            <p class="recommendation">⚠️ Mixed - Location is excellent but rooms aren't great. Consider other options in the Dontonbori area</p>
+                            <p class="recommendation">⚠️ Bit of a mixed bag — location is spot on but the rooms aren't great. I'd look at other options around Dontonbori.</p>
                         </div>
 
                         <div class="activities">
-                            <h4>Things to Do</h4>
+                            <h4>Things to do</h4>
                             <ul class="activity-list">
-                                <li class="must-see">Osaka Aquarium - Incredible! Everyone we spoke to raved about it and it absolutely lived up to the hype</li>
-                                <li class="must-see">Explore Dontonbori - Walk around endless tiny streets filled with restaurants and bars. It's crazy how much there is to discover!</li>
-                                <li class="must-see">Round1 Arcade - Perfect if you want to embrace your inner child. ~$40 for a 24-hour pass. Unreal experience</li>
-                                <li>Day trip to Kyoto - Walk around all the temples (note: very busy with tourists)</li>
-                                <li>Osaka Castle - Nice walks around the castle grounds. You can go inside if you want. Less crowded than Kyoto</li>
+                                <li class="must-see">Osaka Aquarium — everyone kept telling us to go and yeah, it lived up to it. Really good.</li>
+                                <li class="must-see">Explore Dontonbori — endless little streets packed with restaurants and bars. Genuinely mad how much there is.</li>
+                                <li class="must-see">Round1 arcade — perfect if you want to embrace your inner child. Around $40 for a 24-hour pass. So good.</li>
+                                <li>Day trip to Kyoto — walk around all the temples (heads up, it's very busy with tourists).</li>
+                                <li>Osaka Castle — nice walk around the grounds, and you can head inside if you want. Way less crowded than Kyoto.</li>
                             </ul>
                         </div>
 
                         <div class="food-note">
-                            <strong>Why Dontonbori:</strong> This is THE area to stay in Osaka. It's a maze of tiny streets with endless restaurants and bars. You could explore for days and keep finding new places!
+                            <strong>Why Dontonbori:</strong> this is the spot to stay in Osaka. It's a maze of tiny streets full of restaurants and bars — you could wander for days and keep finding new places.
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="itinerary-section" style="background: white;">
+        <div class="itinerary-section" style="background: var(--surface);">
             <div class="itinerary-header">
-                <h2 style="color: #e74c3c;">Must Eat Food in Japan</h2>
-                <p>Essential culinary experiences from our trip</p>
+                <h2 style="color: #c26a4e;">Food You've Gotta Eat</h2>
+                <p>The stuff you've gotta eat while you're there</p>
             </div>
 
             <div class="content" style="padding-top: 0;">
                 <div class="location">
                     <h2>🍣 Sushi</h2>
                     <p>
-                        <strong>Recommended:</strong> Uobei
+                        <strong>Recommend:</strong> Uobei
                     </p>
                     <div class="highlight">
-                        <strong>Note:</strong> Sushi can be quite expensive in Japan, so plan accordingly!
+                        <strong>Note:</strong> sushi can get pretty pricey in Japan, so keep that in mind.
                     </div>
                 </div>
 
                 <div class="location">
                     <h2>🥩 Wagyu Beef</h2>
                     <p>
-                        Infinite options throughout Japan! We went to a fantastic restaurant in Hiroshima. Many markets also sell bite-sized pieces on sticks - perfect for trying this delicacy without breaking the bank.
+                        Wagyu's everywhere. We had an amazing one in Hiroshima. A lot of markets also sell little bite-sized bits on sticks, which is a good way to try it without spending a fortune.
                     </p>
                 </div>
 
                 <div class="location">
                     <h2>🥞 Okonomiyaki</h2>
                     <p>
-                        There were heaps of good places in Tokyo near where we stayed in Akasaka-Mitsuke, but we needed reservations and didn't make them in time. Learn from our mistake and book ahead!
+                        There were heaps of good places near where we stayed in Akasaka-Mitsuke, but they needed reservations and we didn't sort it in time. Learn from us and book ahead.
                     </p>
                 </div>
 
                 <div class="location">
                     <h2>🍜 Ramen - Ichiran ⭐</h2>
                     <p>
-                        This isn't the <em>best</em> ramen in Japan, but it's iconic and it's really good - you've gotta do it at least once!
+                        It's not the <em>best</em> ramen in Japan, but it's iconic and still really good — you've gotta do it at least once.
                     </p>
                     <div class="highlight">
-                        <strong>The Experience:</strong> The lines are often super long, but it's worth it. You sit in single-person booths on a bench, order with a touch screen + paper form, and can use wooden markers to communicate other things. There is no talking and they serve you via a curtain at the back of your booth. Very fun experience and very good food - it's very popular with locals!
+                        <strong>The experience:</strong> the lines are usually pretty long but it's worth it. You sit in your own little single-person booth, order off a touchscreen and a paper form, and there are wooden markers for anything else you need. No one talks and they slide your food through a curtain at the back of the booth. Really fun, and it's popular with locals, not just tourists.
                     </div>
                     <div class="tips">
                         <h2>Pro Tips</h2>
-                        <p><strong>Nagoya</strong> has smaller lines than Tokyo/Osaka</p>
-                        <p><strong>Kyoto location</strong> is very close to the main market, which also meant it had smaller lines since many people/tourists would go to the market instead</p>
+                        <p>The <strong>Nagoya</strong> one had shorter lines than Tokyo or Osaka.</p>
+                        <p>The <strong>Kyoto</strong> one is right near the main market, so a lot of people head there instead and the lines were shorter.</p>
                     </div>
                 </div>
 
                 <div class="location">
                     <h2>🐙 Takoyaki</h2>
                     <p>
-                        Octopus balls! You'll find street vendors selling these in many places throughout Japan. A classic street food experience.
+                        Octopus balls. You'll spot street vendors selling these all over the place — classic street food, give it a go.
                     </p>
                 </div>
 
                 <div class="location">
                     <h2>🍙 Onigiri - Convenience Stores</h2>
                     <p>
-                        <strong>Where:</strong> 7/11 or other convenience stores
+                        <strong>Where:</strong> 7/11 or any of the other convenience stores
                     </p>
                     <p>
-                        The convenience stores in Japan are really good - they have heaps of good food to buy for a quick lunch, packed lunch, or for exploring. We had onigiri from here for breakfast most mornings!
+                        The convenience stores in Japan are honestly great — heaps of good stuff for a quick lunch or to take with you exploring. We grabbed onigiri from here for breakfast most mornings.
                     </p>
                 </div>
 
                 <div class="location">
                     <h2>🍛 Japanese Curry</h2>
                     <p>
-                        We had these frequently - lots of good local places everywhere. <strong>CoCo Curry House</strong> is a big chain that does this. They're decent, not as good as many of the local places we had, but they use an app to order and it's very ordered and efficient, so it's an easy meal if you're feeling tired and the language barrier is too hard.
+                        We had this a fair bit — good local places everywhere. <strong>CoCo Curry House</strong> is the big chain version. It's decent, not as good as the local spots, but you order on an app and it's all quick and easy, so it's a good shout when you're tired and can't be bothered with the language barrier.
                     </p>
                 </div>
 
                 <div class="location">
                     <h2>🍢 Izakaya</h2>
                     <p>
-                        Japanese tapas basically - restaurants that serve lots of smaller dishes like tempura, karaage (fried chicken), and lots of other things. These are a very common style of restaurant and a great way to try multiple dishes in one meal.
+                        Basically Japanese tapas — places that do a bunch of smaller dishes like tempura, karaage (fried chicken) and loads more. They're everywhere and a great way to try a few different things in one sitting.
                     </p>
                 </div>
             </div>
         </div>
 
-        <div class="itinerary-section" style="background: #f8f9fa;">
+        <div class="itinerary-section" style="background: var(--surface-alt);">
             <div class="itinerary-header">
-                <h2 style="color: #e74c3c;">Must Do Experiences</h2>
-                <p>Unique experiences you shouldn't miss</p>
+                <h2 style="color: #c26a4e;">Things You've Gotta Do</h2>
+                <p>A few things I'd make sure you do</p>
             </div>
 
             <div class="content" style="padding-top: 0;">
                 <div class="location">
                     <h2>🛍️ Don Quijote ⭐</h2>
                     <p>
-                        Go into a Don Quijote - the biggest one is in Shibuya, but any of the MEGA stores will give you a good experience. It's a bit like a Japanese Costco - an interesting experience to see all the stuff they sell.
+                        Go into a Don Quijote at least once — the biggest is in Shibuya but any of the MEGA ones will do. It's a bit like a Japanese Costco, kind of fascinating seeing all the random stuff they sell.
                     </p>
                     <div class="highlight">
-                        <strong>Warning:</strong> Very overwhelming and busy though! Prepare for sensory overload in the best way possible.
+                        <strong>Fair warning:</strong> it's overwhelming and busy — full-on sensory overload, but in a good way.
                     </div>
                 </div>
             </div>
@@ -898,7 +963,7 @@
 
                 <h3>Miyajima Island ⭐</h3>
                 <p>
-                    I highly recommend Miyajima Island in the Bay of Hiroshima! It's got heaps of temples and an old township to walk around with lots of food for tourists. You can hike or cable car to the top of the island and look out over the entire bay/city - the views are amazing.
+                    Can't recommend Miyajima Island enough. It's got heaps of temples and an old township to walk around with plenty of food about. You can hike or take the cable car to the top and look out over the whole bay — the views are unreal.
                 </p>
                 <a href="https://www.japan-guide.com/e/e3401.html" class="link-button" target="_blank">View on Japan Guide →</a>
             </div>
@@ -909,7 +974,7 @@
                     Osaka is just a cool city for like food/bars and stuff to do.
                 </p>
 
-                <h3>Dontonbori Area (I highly recommend you stay here)</h3>
+                <h3>Dontonbori area (I highly recommend you stay here)</h3>
                 <div class="highlight">
                     <strong>Stay in Dontonbori</strong> so you can walk around the area - it's basically just a suburb with a million tiny streets and every street is just all tiny restaurants and bars, it's crazy how endless it is and that there's so many.
                 </div>
@@ -930,7 +995,7 @@
             <div class="location">
                 <h2>Nagoya & The Magome Pass</h2>
                 <p>
-                    We also stopped in Nagoya on the Shinkansen for 2 nights to walk the Magome pass. It's an old trade route through the mountains between two really old style villages, it was a very nice walk and the townships and both ends were really interesting and had good food and trinkets.
+                    We also stopped in Nagoya on the Shinkansen for 2 nights to walk the Magome pass. It's an old trade route through the mountains between two really old style villages, it was a very nice walk and the townships at both ends were really interesting and had good food and trinkets.
                 </p>
                 <a href="https://www.japan-guide.com/e/e6078.html" class="link-button" target="_blank">View on Japan Guide →</a>
             </div>
@@ -938,51 +1003,51 @@
             <div class="location">
                 <h2>Tokyo</h2>
 
-                <h3>Where to Stay: Akasaka-Mitsuke Area ⭐</h3>
+                <h3>Where to stay: Akasaka-Mitsuke area ⭐</h3>
                 <p>
-                    I assume you're going to Tokyo, but the question is where to stay? It's a huge place. I did a lot of research and decided on the area between Akasaka-Mitsuke station and Akasaka station is the best spot.
+                    I'm assuming you're going to Tokyo, the real question is where to stay — it's a huge place. I did a lot of research and reckon the area between Akasaka-Mitsuke station and Akasaka station is the best spot.
                 </p>
                 <p>
-                    It's extremely well connected as you have access to 4 metro lines and quite central, it's not super busy but still has heaps of good restaurants in walking distance so you can take the trains to explore Tokyo in the day but easily get food nearby your accommodation at night.
+                    It's really well connected — you've got 4 metro lines and it's pretty central. It's not super busy but still has heaps of good restaurants in walking distance, so you can jump on the trains to explore Tokyo in the day and easily grab food near your place at night.
                 </p>
-                <p style="color: #666; font-style: italic;">
-                    We loved the area it was awesome.
+                <p style="color: var(--ink-soft); font-style: italic;">
+                    We loved the area, it was awesome.
                 </p>
 
-                <h3>Areas to Explore</h3>
+                <h3>Areas to explore</h3>
 
-                <h4 style="color: #555; margin: 15px 0 8px 0;">Akihabara - Pop Culture & Technology Hub</h4>
+                <h4 style="color: var(--ink); margin: 18px 0 8px 0;">Akihabara — pop culture & tech hub</h4>
                 <p>
-                    This is THE area for pop culture and technology. If you're into anime, manga, video games, or electronics, Akihabara is a must-visit. The streets are lined with multi-story electronics shops, anime stores, and gaming arcades.
+                    This is the spot for pop culture and tech. If you're into anime, manga, games or electronics you've gotta go. The streets are full of multi-storey electronics shops, anime stores and arcades.
                 </p>
 
-                <h4 style="color: #555; margin: 15px 0 8px 0;">Shinjuku - Entertainment & Shopping</h4>
+                <h4 style="color: var(--ink); margin: 18px 0 8px 0;">Shinjuku — entertainment & shopping</h4>
                 <p>
-                    A major entertainment and shopping district with incredible energy. Great for nightlife, restaurants, and exploring. The area has everything from high-end department stores to quirky izakayas and late-night eateries.
+                    Big entertainment and shopping district with a real buzz to it. Good for nightlife, food and just wandering. You've got everything from fancy department stores to little izakayas and late-night spots.
                 </p>
 
-                <h4 style="color: #555; margin: 15px 0 8px 0;">Shibuya - Trendy Shopping & Dining ⭐</h4>
+                <h4 style="color: var(--ink); margin: 18px 0 8px 0;">Shibuya — trendy shopping & dining ⭐</h4>
                 <p>
-                    Very trendy area popular for restaurants and shopping. Home to the famous Shibuya Crossing - one of the world's busiest street crossings and an absolute must-see! The surrounding area is packed with great restaurants, cafes, and shops. Perfect for people-watching and soaking in Tokyo's vibrant energy.
+                    Trendy area, great for food and shopping. It's home to the famous Shibuya Crossing — one of the busiest crossings in the world and a must-see. Loads of restaurants, cafes and shops around it, and a great place to just people-watch and take Tokyo in.
                 </p>
 
-                <h3>Day Trips from Tokyo</h3>
+                <h3>Day trips from Tokyo</h3>
 
-                <h4 style="color: #555; margin: 15px 0 8px 0;">Mt. Oyama</h4>
+                <h4 style="color: var(--ink); margin: 18px 0 8px 0;">Mt. Oyama</h4>
                 <p>
-                    A fantastic day trip accessible by train and bus from Tokyo. You can take a cable car partway up the mountain where there are restaurants and beautiful views. If you're feeling adventurous, hike to the summit - be warned, it's very steep with lots and lots of stairs! There's a small restaurant at the top as your reward for making it all the way.
+                    Great day trip from Tokyo by train and bus. There's a cable car partway up with a few restaurants and nice views. If you're feeling keen, hike to the summit — fair warning, it's steep with a ridiculous amount of stairs. There's a little restaurant at the top to reward yourself when you make it.
                 </p>
             </div>
 
             <div class="tips">
-                <h2>Important Tips</h2>
+                <h2>A Few Tips</h2>
 
-                <h3>Hotel Size Warning ⚠️</h3>
+                <h3>Hotel size warning ⚠️</h3>
                 <p>
-                    Something to be aware of - many of the hotels are extremely small (space efficient) particularly in the centre of Tokyo/Osaka. We stayed in a few APA Hotels which was a fairly large chain, but it's basically just a bed in a room up against one wall with no space to sit. Okay for a short time if you're out all day, but not so good if you're staying for a while and want to relax in the room.
+                    Worth knowing — a lot of the hotels are tiny (space efficient), especially in central Tokyo and Osaka. We stayed in a few APA Hotels (big chain) and it's basically just a bed against one wall with nowhere to sit. Fine for a couple of nights if you're out all day, but not great if you're staying a while and want to actually chill in the room.
                 </p>
                 <div class="highlight">
-                    <strong>So check the size of places when booking.</strong>
+                    <strong>So check the size of places when you book.</strong>
                 </div>
             </div>
         </div>
@@ -1000,7 +1065,7 @@
         // Custom icon for highly recommended places
         const redIcon = L.divIcon({
             className: 'custom-div-icon',
-            html: "<div style='background-color:#e74c3c; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 16px; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);'>⭐</div>",
+            html: "<div style='background-color:#7c9576; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 16px; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);'>⭐</div>",
             iconSize: [30, 30],
             iconAnchor: [15, 15]
         });
@@ -1008,7 +1073,7 @@
         // Custom icon for recommended places
         const blueIcon = L.divIcon({
             className: 'custom-div-icon',
-            html: "<div style='background-color:#3498db; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 16px; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);'>📌</div>",
+            html: "<div style='background-color:#7f9bb0; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 16px; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);'>📌</div>",
             iconSize: [30, 30],
             iconAnchor: [15, 15]
         });
@@ -1017,7 +1082,7 @@
         const createNumberIcon = (number) => {
             return L.divIcon({
                 className: 'custom-div-icon',
-                html: `<div style='background-color:#9b59b6; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px; font-weight: bold; border: 3px solid white; box-shadow: 0 3px 8px rgba(0,0,0,0.4);'>${number}</div>`,
+                html: `<div style='background-color:#c26a4e; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px; font-weight: bold; border: 3px solid white; box-shadow: 0 3px 8px rgba(0,0,0,0.4);'>${number}</div>`,
                 iconSize: [35, 35],
                 iconAnchor: [17.5, 17.5]
             });
@@ -1060,7 +1125,7 @@
         // Add itinerary route line
         const routeCoords = itineraryStops.map(stop => stop.coords);
         const routeLine = L.polyline(routeCoords, {
-            color: '#9b59b6',
+            color: '#c26a4e',
             weight: 3,
             opacity: 0.7,
             dashArray: '10, 10'
@@ -1079,7 +1144,7 @@
                 name: "Miyajima Island, Hiroshima",
                 coords: [34.2958, 132.3197],
                 icon: redIcon,
-                description: "Highly recommended! Temples, old township, hiking, amazing bay views."
+                description: "Highly recommend! Temples, old township, hiking, amazing bay views."
             },
             {
                 name: "Kyoto",
