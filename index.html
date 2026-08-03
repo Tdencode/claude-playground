@@ -13,6 +13,11 @@
             box-sizing: border-box;
         }
 
+        html {
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
@@ -20,6 +25,16 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
+            overflow-x: hidden;
+        }
+
+        img, iframe {
+            max-width: 100%;
+        }
+
+        a {
+            overflow-wrap: break-word;
+            word-break: break-word;
         }
 
         .container {
@@ -408,8 +423,28 @@
         }
 
         @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                border-radius: 14px;
+            }
+
+            header {
+                padding: 28px 20px;
+            }
+
             header h1 {
                 font-size: 1.8em;
+            }
+
+            header p {
+                font-size: 1em;
+            }
+
+            #map {
+                height: 340px;
             }
 
             .content {
@@ -418,6 +453,31 @@
 
             .location {
                 padding: 20px;
+                margin-bottom: 25px;
+            }
+
+            .location h2 {
+                font-size: 1.4em;
+            }
+
+            .legend {
+                margin: 15px 20px;
+            }
+
+            .itinerary-section {
+                padding: 25px 20px;
+            }
+
+            .itinerary-header {
+                margin-bottom: 30px;
+            }
+
+            .itinerary-header h2 {
+                font-size: 1.6em;
+            }
+
+            .itinerary-header h2::before {
+                margin-right: 8px;
             }
 
             .timeline::before {
@@ -425,7 +485,8 @@
             }
 
             .timeline-item {
-                padding-left: 60px;
+                padding-left: 55px;
+                margin-bottom: 35px;
             }
 
             .timeline-dot {
@@ -433,19 +494,82 @@
             }
 
             .timeline-travel {
-                padding-left: 60px;
+                padding-left: 55px;
             }
 
             .timeline-travel::before {
                 left: 8px;
             }
 
+            .stop-card {
+                padding: 20px;
+            }
+
             .stop-header {
                 flex-direction: column;
             }
 
+            .stop-title {
+                font-size: 1.5em;
+            }
+
             .stop-dates {
                 margin-top: 10px;
+                white-space: normal;
+                display: inline-block;
+            }
+
+            /* Disable horizontal hover shifts that can cause overflow on touch */
+            .location:hover,
+            .activity-list li:hover {
+                transform: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 6px;
+            }
+
+            header {
+                padding: 22px 16px;
+            }
+
+            header h1 {
+                font-size: 1.5em;
+            }
+
+            #map {
+                height: 280px;
+            }
+
+            .content,
+            .itinerary-section {
+                padding: 18px 14px;
+            }
+
+            .location {
+                padding: 16px;
+            }
+
+            .stop-card {
+                padding: 16px;
+            }
+
+            .legend {
+                margin: 12px 14px;
+            }
+
+            .itinerary-header h2 {
+                font-size: 1.4em;
+            }
+
+            .stop-title {
+                font-size: 1.3em;
+            }
+
+            .activity-list li {
+                padding: 10px 12px;
             }
         }
     </style>
